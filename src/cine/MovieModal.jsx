@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { getUrlImage } from "../utils/cine-utils";
 
 function MovieModal({ onClose, movie }) {
@@ -45,5 +46,18 @@ function MovieModal({ onClose, movie }) {
     </div>
   );
 }
+
+MovieModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  movie: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    cover: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+  }).isRequireds,
+};
 
 export default MovieModal;

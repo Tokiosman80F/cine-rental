@@ -1,7 +1,9 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { getUrlImage } from "../utils/cine-utils";
 import MovieModal from "./MovieModal";
 import StarRating from "./StarRating";
+
 function MovieCard({ movie }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -46,5 +48,17 @@ function MovieCard({ movie }) {
     </>
   );
 }
+
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    cover: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 export default MovieCard;
