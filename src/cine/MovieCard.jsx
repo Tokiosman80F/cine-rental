@@ -32,7 +32,7 @@ function MovieCard({ movie }) {
   return (
     <>
       {isOpen && (
-        <MovieModal movie={selectedMovie} onClose={handleCloseModal} />
+        <MovieModal movie={selectedMovie} onClose={handleCloseModal} onAddToCart={handleAddToCart}/>
       )}
       <figure className="p-4 cursor-pointer border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
         <a onClick={handleMovieSelected}>
