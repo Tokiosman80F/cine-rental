@@ -4,6 +4,7 @@ import { getUrlImage } from "../utils/cine-utils";
 import MovieModal from "./MovieModal";
 import StarRating from "./StarRating";
 import { MovieContext } from "../context";
+import { toast } from "react-toastify";
 
 function MovieCard({ movie }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,12 +22,13 @@ function MovieCard({ movie }) {
 
   function handleAddToCart(event,movie){
     event.stopPropagation()
-    // console.log("Add to cart",movie)
+
     const isFound=cartData.find(item=>item.id===movie.id)
     if(!isFound){
       setCartData([...cartData,movie])
+      toast.success("Movie added to cart",{ position: "bottom-right", autoClose: 3000, closeOnClick: true, pauseOnHover: true, draggable: true, theme: "dark" })
     }else{
-      alert("This movie is already in the cart")
+      toast.error("Movie already in cart",{ position: "bottom-right", autoClose: 3000, closeOnClick: true, pauseOnHover: true, draggable: true, theme: "dark" }) 
     }
   }
   return (
