@@ -22,7 +22,6 @@ function MovieCard({ movie }) {
 
   function handleAddToCart(event,movie){
     event.stopPropagation()
-
     const isFound=cartData.find(item=>item.id===movie.id)
     if(!isFound){
       setCartData([...cartData,movie])
