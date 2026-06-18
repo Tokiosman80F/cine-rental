@@ -5,15 +5,16 @@ import DeleteIcon from "../assets/delete.svg";
 import CheckoutIcon from "../assets/icons/checkout.svg";
 import { getUrlImage } from "../utils/cine-utils";
 import { toast } from "react-toastify";
+import { TOAST } from "../utils/toast-config";
 
 export default function CartDetail({ onClose }) {
-  const {cartData,setCartData}=useContext(MovieContext)
+  const { cartData, setCartData } = useContext(MovieContext)
 
-  function handleRemoveMovie(movie){
-    const filteredCart=cartData.filter(item=>item.id!==movie.id)
-    console.log("filtered cart",filteredCart)
+  function handleRemoveMovie(movie) {
+    const filteredCart = cartData.filter(item => item.id !== movie.id)
+    // console.log("filtered cart",filteredCart)
     setCartData(filteredCart)
-    toast.success("Movie removed from cart",{ position: "bottom-right", autoClose: 3000, closeOnClick: true, pauseOnHover: true, draggable: true, theme: "dark" })
+    toast.success("Movie removed from cart", TOAST)
   }
 
   return (
@@ -23,34 +24,34 @@ export default function CartDetail({ onClose }) {
           <h2 className="text-2xl lg:text-[30px] mb-10 font-bold">
             Your Carts
           </h2>
-          
+
           <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
             {
-              cartData.length===0 ? (<p className="text-3xl">No movie added</p>) : (cartData.map(movie=>( <div key={movie.id} className="grid grid-cols-[1fr_auto] gap-4">
-              <div className="flex items-center gap-4">
-                <img
-                  className="rounded overflow-hidden w-16 h-20 object-cover"
-                  src={getUrlImage(movie.cover)}
-                  alt=""
-                />
-                <div>
-                  <h3 className="text-base md:text-xl font-bold">{movie.title}</h3>
-                  <p className="max-md:text-xs text-[#575A6E]">
-                    {movie.genre}
-                  </p>
-                  <span className="max-md:text-xs">${movie.price}</span>
+              cartData.length === 0 ? (<p className="text-3xl">No movie added</p>) : (cartData.map(movie => (<div key={movie.id} className="grid grid-cols-[1fr_auto] gap-4">
+                <div className="flex items-center gap-4">
+                  <img
+                    className="rounded overflow-hidden w-16 h-20 object-cover"
+                    src={getUrlImage(movie.cover)}
+                    alt=""
+                  />
+                  <div>
+                    <h3 className="text-base md:text-xl font-bold">{movie.title}</h3>
+                    <p className="max-md:text-xs text-[#575A6E]">
+                      {movie.genre}
+                    </p>
+                    <span className="max-md:text-xs">${movie.price}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between gap-4 items-center">
-                <button onClick={()=>handleRemoveMovie(movie)}  className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white">
-                  <img className="w-5 h-5" src={DeleteIcon} alt="" />
-                  <span className="max-md:hidden">Remove</span>
-                </button>
-              </div>
-            </div>)))
+                <div className="flex justify-between gap-4 items-center">
+                  <button onClick={() => handleRemoveMovie(movie)} className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white">
+                    <img className="w-5 h-5" src={DeleteIcon} alt="" />
+                    <span className="max-md:hidden">Remove</span>
+                  </button>
+                </div>
+              </div>)))
             }
-            
-           
+
+
           </div>
           <div className="flex items-center justify-end gap-2">
             <a

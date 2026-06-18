@@ -7,9 +7,9 @@ import { useContext, useState } from "react";
 import CartDetail from "./cine/CartDetail";
 import { MovieContext, ThemeContext } from "./context";
 function Header() {
-  const [showCart, setShowCart] = useState(true);
-  const {cartData}=useContext(MovieContext)
-  const {darkMode,setDarkMode}=useContext(ThemeContext)
+  const [showCart, setShowCart] = useState(false);
+  const { cartData } = useContext(MovieContext)
+  const { darkMode, setDarkMode } = useContext(ThemeContext)
   function handleCartClick() {
     setShowCart(true);
   }
@@ -37,11 +37,11 @@ function Header() {
           </li>
           <li>
             <a
-              onClick={()=>setDarkMode( darkMode=> !darkMode)}
+              onClick={() => setDarkMode(darkMode => !darkMode)}
               className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
               href="#"
             >
-              <img src={darkMode? Sun: Moon} width="24" height="24" alt="moon icon" />
+              <img src={darkMode ? Sun : Moon} width="24" height="24" alt="moon icon" />
             </a>
           </li>
           <li className="relative">

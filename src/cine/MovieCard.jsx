@@ -5,12 +5,15 @@ import MovieModal from "./MovieModal";
 import StarRating from "./StarRating";
 import { MovieContext } from "../context";
 import { toast } from "react-toastify";
+import { TOAST } from "../utils/toast-config";
+import TagIcon from "../assets/tag.svg";
 
 function MovieCard({ movie }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const {cartData,setCartData}=useContext(MovieContext)
-  console.log("Cart data in MovieCard",cartData)
+  const { cartData, setCartData } = useContext(MovieContext)
+  // console.log("Cart data in MovieCard",cartData)
+
   function handleCloseModal() {
     setSelectedMovie(null);
     setIsOpen(false);
@@ -20,23 +23,23 @@ function MovieCard({ movie }) {
     setIsOpen(true);
   }
 
-  function handleAddToCart(event,movie){
+  function handleAddToCart(event, movie) {
     event.stopPropagation()
-    const isFound=cartData.find(item=>item.id===movie.id)
-    if(!isFound){
-      setCartData([...cartData,movie])
-      toast.success("Movie added to cart",{ position: "bottom-right", autoClose: 3000, closeOnClick: true, pauseOnHover: true, draggable: true, theme: "dark" })
-    }else{
-      toast.error("Movie already in cart",{ position: "bottom-right", autoClose: 3000, closeOnClick: true, pauseOnHover: true, draggable: true, theme: "dark" }) 
+    const alreadyInCart = cartData.find(item => item.id === movie.id)
+    if (!alreadyInCart) {
+      setCartData(prevCart => [...prevCart, movie])
+      toast.success("Movie added to cart", TOAST)
+    } else {
+      toast.error("Movie already in cart", TOAST)
     }
   }
   return (
     <>
       {isOpen && (
-        <MovieModal movie={selectedMovie} onClose={handleCloseModal} onAddToCart={handleAddToCart}/>
+        <MovieModal movie={selectedMovie} onClose={handleCloseModal} onAddToCart={handleAddToCart} />
       )}
       <figure className="p-4 cursor-pointer border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
-        <a onClick={handleMovieSelected}>
+        <button className="block w-full text-left cursor-pointer" type="button" onClick={handleMovieSelected}>
           <img
             className="w-full object-cover"
             src={getUrlImage(movie.cover)}
@@ -48,16 +51,17 @@ function MovieCard({ movie }) {
             <div className="flex items-center space-x-1 mb-5">
               <StarRating value={movie.rating} />
             </div>
-            <a
-              onClick={(e)=> handleAddToCart(e,movie)}
-              className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
+          </figcaption>
+        </button>
+
+          <button
+              onClick={(e) => handleAddToCart(e, movie)}
+              className="w-full bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
               href="#"
             >
-              <img src="./assets/tag.svg" alt="" />
+              <img src={TagIcon} alt="" />
               <span>${movie.price} | Add to Cart</span>
-            </a>
-          </figcaption>
-        </a>
+            </button>
       </figure>
     </>
   );

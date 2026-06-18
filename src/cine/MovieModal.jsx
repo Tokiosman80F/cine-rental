@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { getUrlImage } from "../utils/cine-utils";
 
-function MovieModal({ onClose, movie,onAddToCart }) {
+function MovieModal({ onClose, movie, onAddToCart }) {
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[984px] p-4 max-h-[90vh] overflow-auto">
@@ -28,7 +28,7 @@ function MovieModal({ onClose, movie,onAddToCart }) {
               <a
                 className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
                 href="#"
-                onClick={(e)=> onAddToCart(e,movie)}
+                onClick={(e) => onAddToCart(e, movie)}
               >
                 <img src="./assets/tag.svg" alt="" />
                 <span>${movie.price} | Add to Cart</span>
@@ -58,7 +58,7 @@ MovieModal.propTypes = {
     genre: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
-  }).isRequireds,
+  }).isRequired,
   onAddToCart: PropTypes.func.isRequired,
 };
 
