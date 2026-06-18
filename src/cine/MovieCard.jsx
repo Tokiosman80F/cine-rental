@@ -1,13 +1,15 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getUrlImage } from "../utils/cine-utils";
 import MovieModal from "./MovieModal";
 import StarRating from "./StarRating";
+import { MovieContext } from "../context";
 
 function MovieCard({ movie }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-
+  const {cartData,setCartData}=useContext(MovieContext)
+  console.log("Cart data in MovieCard",cartData)
   function handleCloseModal() {
     setSelectedMovie(null);
     setIsOpen(false);
@@ -17,6 +19,16 @@ function MovieCard({ movie }) {
     setIsOpen(true);
   }
 
+  function handleAddToCart(event,movie){
+    event.stopPropagation()
+    // console.log("Add to cart",movie)
+    const isFound=cartData.find(item=>item.id===movie.id)
+    if(!isFound){
+      setCartData([...cartData,movie])
+    }else{
+      alert("This movie is already in the cart")
+    }
+  }
   return (
     <>
       {isOpen && (
@@ -27,7 +39,7 @@ function MovieCard({ movie }) {
           <img
             className="w-full object-cover"
             src={getUrlImage(movie.cover)}
-            alt=""
+            alt={movie.title}
           />
           <figcaption className="pt-4">
             <h3 className="text-xl mb-1">{movie.title}</h3>
@@ -36,6 +48,7 @@ function MovieCard({ movie }) {
               <StarRating value={movie.rating} />
             </div>
             <a
+              onClick={(e)=> handleAddToCart(e,movie)}
               className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
               href="#"
             >
