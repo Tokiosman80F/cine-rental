@@ -6,7 +6,14 @@ import CheckoutIcon from "../assets/icons/checkout.svg";
 import { getUrlImage } from "../utils/cine-utils";
 
 export default function CartDetail({ onClose }) {
-  const {cartData}=useContext(MovieContext)
+  const {cartData,setCartData}=useContext(MovieContext)
+
+  function handleRemoveMovie(movie){
+    const filteredCart=cartData.filter(item=>item.id!==movie.id)
+    console.log("filtered cart",filteredCart)
+    setCartData(filteredCart)
+  }
+
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[790px] p-4 max-h-[90vh] overflow-auto">
@@ -33,7 +40,7 @@ export default function CartDetail({ onClose }) {
                 </div>
               </div>
               <div className="flex justify-between gap-4 items-center">
-                <button className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white">
+                <button onClick={()=>handleRemoveMovie(movie)}  className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white">
                   <img className="w-5 h-5" src={DeleteIcon} alt="" />
                   <span className="max-md:hidden">Remove</span>
                 </button>
