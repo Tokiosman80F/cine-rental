@@ -1,18 +1,17 @@
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { MovieContext } from "../context";
 import { getUrlImage } from "../utils/cine-utils";
+import { TOAST } from "../utils/toast-config";
+import AddToCartButton from "./AddToCartButton";
 import MovieModal from "./MovieModal";
 import StarRating from "./StarRating";
-import { MovieContext } from "../context";
-import { toast } from "react-toastify";
-import { TOAST } from "../utils/toast-config";
-import TagIcon from "../assets/tag.svg";
 
 function MovieCard({ movie }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const { cartData, setCartData } = useContext(MovieContext)
-  // console.log("Cart data in MovieCard",cartData)
+  const { cartData, setCartData } = useContext(MovieContext);
 
   function handleCloseModal() {
     setSelectedMovie(null);
@@ -24,25 +23,36 @@ function MovieCard({ movie }) {
   }
 
   function handleAddToCart(event, movie) {
-    event.stopPropagation()
-    const alreadyInCart = cartData.find(item => item.id === movie.id)
+    event.stopPropagation();
+    const alreadyInCart = cartData.find((item) => item.id === movie.id);
     if (!alreadyInCart) {
-      setCartData(prevCart => [...prevCart, movie])
-      toast.success("Movie added to cart", TOAST)
+      setCartData((prevCart) => [...prevCart, movie]);
+      toast.success("Movie added to cart", TOAST);
     } else {
-      toast.error("Movie already in cart", TOAST)
+      toast.error("Movie already in cart", TOAST);
     }
   }
   return (
     <>
       {isOpen && (
-        <MovieModal movie={selectedMovie} onClose={handleCloseModal} onAddToCart={handleAddToCart} />
+        <MovieModal
+          movie={selectedMovie}
+          onClose={handleCloseModal}
+          onAddToCart={handleAddToCart}
+        />
       )}
       <figure className="p-4 cursor-pointer border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
-        <button className="block w-full text-left cursor-pointer" type="button" onClick={handleMovieSelected}>
+        <button
+          className="block w-full text-left cursor-pointer"
+          type="button"
+          onClick={handleMovieSelected}
+        >
           <img
             className="w-full object-cover"
             src={getUrlImage(movie.cover)}
+            width={300}
+            height={450}
+            loading="lazy"
             alt={movie.title}
           />
           <figcaption className="pt-4">
@@ -54,14 +64,7 @@ function MovieCard({ movie }) {
           </figcaption>
         </button>
 
-          <button
-              onClick={(e) => handleAddToCart(e, movie)}
-              className="w-full bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
-              href="#"
-            >
-              <img src={TagIcon} alt="" />
-              <span>${movie.price} | Add to Cart</span>
-            </button>
+        <AddToCartButton movie={movie} onAddToCart={handleAddToCart} />
       </figure>
     </>
   );
